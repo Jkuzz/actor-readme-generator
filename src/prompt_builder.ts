@@ -44,17 +44,16 @@ Constraints:
     - Do not include images or videos.
     - Use GitHub-flavoured Markdown formatting.
     - Ensure clarity, conciseness, and SEO optimization.
-    - Must pass README evaluation tool.
 `;
 
-const EXAMPLE_ACTORS_SECTION = `
-Here are some example Actors. Pick one that is similar to this one and use it as an example of how to write a good README:
-- apify/instagram-scraper
-- clockworks/free-tiktok-scraper
-- compass/Google-Maps-Reviews-Scraper
-- epctex/youtube-video-downloader
-- maxcopell/zillow-zip-search
-`;
+// const EXAMPLE_ACTORS_SECTION = `
+// Use one of the available tools to fetch the README from the Actor that is most similar to ${actorData.title}
+// - apify/instagram-scraper
+// - clockworks/free-tiktok-scraper
+// - compass/Google-Maps-Reviews-Scraper
+// - epctex/youtube-video-downloader
+// - maxcopell/zillow-zip-search
+// `;
 
 export const buildPrompt = (actorData: ActorDataPromptInput) => {
     const actorMoreData = {
@@ -62,10 +61,19 @@ export const buildPrompt = (actorData: ActorDataPromptInput) => {
         currentPricingInfo: actorData.currentPricingInfo,
     };
 
-    return `Generate a structured README for this Apify Actor ${actorData.title
-    }. Follow these guidelines to create an effective, user-friendly, and SEO-optimized document. `
-        + `Here is a summary of a guide on writing a good README.\n${README_GUIDE
-        }\nHere are some more details about the actor\n${JSON.stringify(actorMoreData)
-        }\nHere is the Actor's input schema:\n${JSON.stringify(actorData.inputSchema)
-        }\n${EXAMPLE_ACTORS_SECTION}`;
+    return `First, use one of the available tools to fetch the README from the Actor that looks the most similar to ${actorData.title}
+        - apify/instagram-scraper
+        - clockworks/free-tiktok-scraper
+        - compass/Google-Maps-Reviews-Scraper
+        - epctex/youtube-video-downloader
+        - maxcopell/zillow-zip-search
+
+    Second, use the README that you fetched, the ${actorData.title} Actor information and the
+    Official README Guide to generate a new README.md for the ${actorData.title} Actor.
+
+    The Actor information is the following;
+    ${JSON.stringify(actorMoreData)}
+
+    The Official README Guide is the following:
+    ${README_GUIDE}`;
 };
