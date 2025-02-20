@@ -22,7 +22,7 @@ await chargeForActorStart();
 
 // Handle input
 const {
-    actorId,
+    actorId = 'shu8hvrXbJbY3Eb9W',
     modelName = 'gpt-4o-mini',
     debug,
 } = await Actor.getInput() as Input;

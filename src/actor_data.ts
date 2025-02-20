@@ -1,14 +1,18 @@
 import type { ApifyClient } from 'apify';
 
 export const getActorData = async (apifyClient: ApifyClient, actorId: string) => {
-    const result = await apifyClient.actor(actorId).get();
-    console.log(result);
+    const actorData = await apifyClient.actor(actorId).get();
+    const latestBuildId = actorData?.taggedBuilds?.latest?.buildId;
+
+    if (!latestBuildId) {
+        throw new Error('You must build the Actor before generating the Readme');
+    }
+    const build = await apifyClient
+        .build(latestBuildId)
+        .get();
+
     return {
-        _id: actorId,
-        name: 'example-actor',
-        title: 'Example Actor',
-        description: 'Example Actor',
-        version: '0.0',
-        buildTag: 'latest',
+        actorData,
+        build,
     };
 };
