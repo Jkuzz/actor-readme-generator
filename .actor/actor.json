@@ -5,9 +5,6 @@
     "description": "Bee Framework Agent in TypeScript",
     "version": "0.0",
     "buildTag": "latest",
-    "environmentVariables": {
-        "OPENAI_API_KEY": "lol"
-    },
     "storages": {
         "dataset": "./dataset_schema.json"
     },
