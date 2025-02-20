@@ -9,25 +9,26 @@ import { CalculatorSumTool } from './tools/calculator.js';
 import { InstagramScrapeTool } from './tools/instagram.js';
 import { StructuredOutputGenerator } from './structured_response_generator.js';
 import { beeOutputTotalTokens, chargeForActorStart, chargeForModelTokens } from './ppe_utils.js';
-
-// This is an ESM project, and as such, it requires you to specify extensions in your relative imports.
-// Read more about this here: https://nodejs.org/docs/latest-v18.x/api/esm.html#mandatory-file-extensions
-// Note that we need to use `.js` even when inside TS files
-// import { router } from './routes.js';
+import { getActorData } from './actor_data.js';
 
 // Actor input schema
 interface Input {
+    actorId: string;
     modelName: string;
     debug?: boolean;
 }
 
 const query = 'Generate a README for the following actor:';
-
-// The init() call configures the Actor for its environment. It's recommended to start every Actor with an init().
 await Actor.init();
+
+/**
+ * Actor code
+*/
+await chargeForActorStart();
 
 // Handle input
 const {
+    actorId,
     modelName = 'gpt-4o-mini',
     debug,
 } = await Actor.getInput() as Input;
@@ -35,11 +36,8 @@ if (debug) {
     log.setLevel(log.LEVELS.DEBUG);
 }
 
-/**
- * Actor code
-*/
-// Charge for Actor start
-await chargeForActorStart();
+const actorData = await getActorData(actorId);
+console.log('🚀 ~ actorData:', actorData);
 
 // Create a ReAct agent that can use tools.
 // See https://i-am-bee.github.io/bee-agent-framework/#/agents?id=bee-agent
@@ -121,5 +119,4 @@ await Actor.pushData({
 });
 log.info('Pushed the data into the dataset!');
 
-// Gracefully exit the Actor process. It's recommended to quit all Actors with an exit().
 await Actor.exit();

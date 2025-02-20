@@ -3,12 +3,12 @@
   "type": "object",
   "schemaVersion": 1,
   "properties": {
-    "query": {
-      "title": "Query",
+    "actorId": {
+      "title": "Actor ID",
       "type": "string",
-      "description": "Query for the agent.",
+      "description": "Apify id of the actor to generate the README for.",
       "editor": "textfield",
-      "prefill": "What is the total number of likes and the total number of comments for the latest 10 posts on the @openai Instagram account? From the 10 latest posts, show me the most popular one."
+      "prefill": "JOHAgNsmklA9ZBl7Y"
     },
     "modelName": {
       "title": "OpenAI model",
