@@ -1,10 +1,22 @@
-const DEFAULT_INSTRUCTIONS = 'Generate a README for the following actor:';
+type ActorDataPromptInput = {
+    description: string;
+    currentPricingInfo: unknown;
+    inputSchema: unknown;
+};
 
-// TODO: Fix this type
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const buildPrompt = (actorData: any) => {
+export const buildPrompt = (actorData: ActorDataPromptInput) => {
     // TODO: Build prompt from actor data
-    return `${DEFAULT_INSTRUCTIONS}
-        ${actorData.description}
-    `;
+
+    const actorMoreData = {
+        description: actorData.description,
+        currentPricingInfo: actorData.currentPricingInfo,
+    };
+
+    return `Generate a README for an Apify Actor. Here is a summary of a guide on writing a good README.\n`
+        // TODO: Add the guide summary here
+        + `Here is the Actor's input schema:\n${
+            JSON.stringify(actorData.inputSchema)
+        }\nHere are some more details about the actor\n${
+            JSON.stringify(actorMoreData)
+        }`;
 };

@@ -47,7 +47,7 @@ export const getActorData = async (apifyClient: ApifyClient, actorId: string) =>
         seoTitle,
         seoDescription,
         pictureUrl,
-        pricingInfos,
+        currentPricingInfo: getCurrentActorPricingInfo(pricingInfos),
         inputSchema,
         changelog,
     };
