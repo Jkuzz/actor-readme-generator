@@ -17,27 +17,22 @@ import { beeOutputTotalTokens, chargeForActorStart, chargeForModelTokens } from 
 
 // Actor input schema
 interface Input {
-    query: string;
     modelName: string;
     debug?: boolean;
 }
+
+const query = 'Generate a README for the following actor:';
 
 // The init() call configures the Actor for its environment. It's recommended to start every Actor with an init().
 await Actor.init();
 
 // Handle input
 const {
-    // The query default value is provided only for template testing purposes.
-    // You can remove it.
-    query = 'This is fallback test query, do not nothing and ignore it.',
     modelName = 'gpt-4o-mini',
     debug,
 } = await Actor.getInput() as Input;
 if (debug) {
     log.setLevel(log.LEVELS.DEBUG);
-}
-if (!query) {
-    throw new Error('An agent query is required.');
 }
 
 /**
@@ -54,6 +49,7 @@ log.debug(`Using model: ${modelName}`);
 const llm = new LangChainChatModel(
     new ChatOpenAI({ model: modelName }),
 );
+
 // The LangChain adapter does not work with the structured output generation
 // for some reason.
 // Create a separate LLM for structured output generation.
