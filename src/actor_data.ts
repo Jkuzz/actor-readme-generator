@@ -1,5 +1,28 @@
 import type { ApifyClient } from 'apify';
 
+export const getActorPricingInfoEffectiveAtDate = ({
+    pricingInfos,
+    date,
+}: {
+    pricingInfos: any[],
+    date: Date,
+}): any | null => {
+    if (!pricingInfos?.length) return null;
+
+    const effectivePricingInfo = (pricingInfos
+        .filter((pricingInfo) => pricingInfo.startedAt <= date)
+        .sort((a, b) => b.startedAt.getTime() - a.startedAt.getTime())
+    )[0] || null;
+
+    return effectivePricingInfo;
+};
+
+export const getCurrentActorPricingInfo = (
+    pricingInfos: unknown[],
+) => (
+    getActorPricingInfoEffectiveAtDate({ pricingInfos, date: new Date() })
+);
+
 export const getActorData = async (apifyClient: ApifyClient, actorId: string) => {
     const actorData = await apifyClient.actor(actorId).get();
     const latestBuildId = actorData?.taggedBuilds?.latest?.buildId;
