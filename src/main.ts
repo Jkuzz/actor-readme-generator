@@ -78,7 +78,7 @@ log.info(`Agent 🤖 : ${response.result.text}`);
 await chargeForModelTokens(modelName, tokensTotal);
 
 await Actor.pushData({
-    response: response.result.text,
+    readme: response.result.text,
 });
 log.info('Pushed the data into the dataset!');
 

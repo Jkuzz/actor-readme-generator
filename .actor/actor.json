@@ -1,8 +1,8 @@
 {
     "actorSpecification": 1,
     "name": "actor-readme-generator",
-    "title": "Bee Framework Agent TypeScript",
-    "description": "Bee Framework Agent in TypeScript",
+    "title": "AI Actor README Generator",
+    "description": "Generates a README for an Apify Actor using an AI Agent. You only need to provide the actor id to generate a readable and SEO optimized README for the Actor. The generation process utilizes Apify's Official README Guide.",
     "version": "0.0",
     "buildTag": "latest",
     "storages": {

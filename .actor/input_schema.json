@@ -6,7 +6,7 @@
         "actorId": {
             "title": "Actor ID",
             "type": "string",
-            "description": "Apify id of the actor to generate the README for.",
+            "description": "Apify id of the actor to generate the README for. All necessary information will be fetched from the Actor automatically.",
             "editor": "textfield",
             "prefill": "JOHAgNsmklA9ZBl7Y"
         },
