@@ -2,43 +2,48 @@ type ActorDataPromptInput = {
     description: string;
     currentPricingInfo: unknown;
     inputSchema: unknown;
+    title: string;
 };
 
 const README_GUIDE = `
-# Apify Actor README Guide Summary
-In Apify, the README serves as a public-facing landing page for an Actor in the Apify Store.
-Unlike traditional developer-focused READMEs, it aims to attract and convert users by providing clear explanations,
-SEO-optimized content, and support information.
+1. Introduction and Features
+    - Start with a brief explanation of what the Actor does and how users can quickly try it.
+    - Highlight key functionalities, such as data extraction capabilities, automation steps, or platform advantages.
+    - If applicable, include a table listing the primary data points the Actor can extract.
+    - Emphasize how Apify's platform enhances the Actor, such as API access, scheduling, and proxy rotation.
 
-## Key Functions of a README
-- SEO – Helps the Actor rank on Google, driving motivated users to the page.
-- First Impression – Persuades users to try the Actor by being clear, informative, and reassuring.
-- Extended Instructions – Explains complex input settings and advanced features.
-- Support – Serves as a reference for troubleshooting and common issues.
+2. Tutorial Section
+    - Provide a simple, step-by-step guide on how to use the Actor.
+    - Optimize headings for SEO, e.g., "How to use [Actor] to scrape [target site]."
 
-## Recommended Structure
-- Intro & Features – A concise summary of what the Actor does, its benefits, and key features. Highlight platform advantages and data extraction capabilities.
-- Tutorial – Step-by-step instructions or a link to a detailed guide.
-- Pricing – Transparency on costs, potential scraping volumes, and SEO-optimized cost-related queries.
-- Input & Output Examples – Screenshots or JSON examples to clarify data structure.
-- Other Actors – Promote related Actors for cross-selling.
-- FAQ, Disclaimers & Support – Cover legal disclaimers, troubleshooting, user feedback, and integration possibilities.
+3. Pricing Explanation
+    - Clearly state the Actor’s pricing model (e.g., per result, per Compute Unit, or rental).
+    - Set expectations about costs based on common usage scenarios.
+    - Use SEO-friendly phrasing, such as:
+        "How much does it cost to scrape [target site]?"
+        "Is scraping [target site] free?"
 
-## Formatting & SEO Best Practices
-- Use Markdown with H2/H3 headings for readability and SEO benefits.
-- Maintain a clear tone suited to the target audience (technical vs. non-technical users).
-- Prioritize SEO-friendly keywords in headings and content (e.g., “How to scrape [site]”).
-- Keep key information in the first 25% of the README for maximum user retention.
-- Use images, GIFs, and videos to improve engagement and ranking.
-- Clickable images & embedded YouTube videos enhance UX and increase conversions.
-- Use a neutral, informative tone of voice.
-- Use GitHub-flavoured Markdown.
+4. Input and Output Examples
+    - Display input requirements clearly, preferably as structured text or JSON.
+    - Show an example of expected output in JSON format.
+    - If applicable, include multiple output examples (e.g., different types of extracted data).
 
-## Optimizing for Google
-- Treat the README as a landing page to rank higher in search results.
-- Structure headings to align with Google’s “People Also Ask” queries.
-- Incorporate relevant keywords (e.g., “scraping [site] data,” “extract data with Python”).
-- Videos boost rankings, so include a short walkthrough.
+5. FAQ, Disclaimers, and Support
+    - Include frequently asked questions, troubleshooting tips, and disclaimers.
+    - Address legal concerns, API alternatives, known bugs, or limitations.
+    - Direct users to support channels, feedback collection, or custom solution requests.
+
+6. Formatting and SEO
+    - Use markdown with clear H2 and H3 headings for readability and SEO benefits.
+    - Optimize headers for search engine visibility, particularly in H2 and H3 tags.
+    - Naturally integrate keywords like "scrape [target site]," "extract data from [platform]," and "API alternative."
+    - Maintain a tone appropriate for the Actor’s target audience—technical if needed, or beginner-friendly if no coding experience is required.
+    - Keep the introduction concise but engaging, as most users only read the first 25% of the README.
+
+Constraints:
+    - Do not include images or videos.
+    - Use GitHub-flavoured Markdown formatting.
+    - Ensure clarity, conciseness, and SEO optimization.
 `;
 
 export const buildPrompt = (actorData: ActorDataPromptInput) => {
@@ -49,11 +54,10 @@ export const buildPrompt = (actorData: ActorDataPromptInput) => {
         currentPricingInfo: actorData.currentPricingInfo,
     };
 
-    return `Generate a README for an Apify Actor. Here is a summary of a guide on writing a good README.\n${
-        README_GUIDE
-    }\nHere is the Actor's input schema:\n${
-        JSON.stringify(actorData.inputSchema)
-    }\nHere are some more details about the actor\n${
-        JSON.stringify(actorMoreData)
-    }`;
+    return `Generate a structured README for this Apify Actor ${actorData.title
+    }. Follow these guidelines to create an effective, user-friendly, and SEO-optimized document. `
+        + `Here is a summary of a guide on writing a good README.\n${README_GUIDE
+        }\nHere are some more details about the actor\n${JSON.stringify(actorMoreData)
+        }\nHere is the Actor's input schema:\n${JSON.stringify(actorData.inputSchema)
+        }`;
 };
