@@ -34,8 +34,21 @@ export const getActorData = async (apifyClient: ApifyClient, actorId: string) =>
         .build(latestBuildId)
         .get();
 
+    const { name, username, exampleRunInput, categories, title, seoTitle, seoDescription, pictureUrl, pricingInfos } = actorData;
+    // TODO: add an optional readme in the future
+    const { inputSchema, changelog } = build;
+
     return {
-        actorData,
-        build,
+        name,
+        username,
+        exampleRunInput,
+        categories,
+        title,
+        seoTitle,
+        seoDescription,
+        pictureUrl,
+        pricingInfos,
+        inputSchema,
+        changelog,
     };
 };
