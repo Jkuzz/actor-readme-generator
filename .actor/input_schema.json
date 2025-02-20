@@ -1,33 +1,30 @@
 {
-  "title": "Bee Framework Agent TypeScript",
-  "type": "object",
-  "schemaVersion": 1,
-  "properties": {
-    "actorId": {
-      "title": "Actor ID",
-      "type": "string",
-      "description": "Apify id of the actor to generate the README for.",
-      "editor": "textfield",
-      "prefill": "JOHAgNsmklA9ZBl7Y"
+    "title": "Bee Framework Agent TypeScript",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+        "actorId": {
+            "title": "Actor ID",
+            "type": "string",
+            "description": "Apify id of the actor to generate the README for.",
+            "editor": "textfield",
+            "prefill": "JOHAgNsmklA9ZBl7Y"
+        },
+        "modelName": {
+            "title": "OpenAI model",
+            "type": "string",
+            "description": "The OpenAI model to use. Currently supported models are gpt-4o and gpt-4o-mini.",
+            "enum": ["gpt-4o", "gpt-4o-mini"],
+            "default": "gpt-4o-mini",
+            "prefill": "gpt-4o-mini"
+        },
+        "debug": {
+            "title": "Debug",
+            "type": "boolean",
+            "description": "If enabled, the Actor will run in debug mode and produce more output.",
+            "editor": "checkbox",
+            "default": false
+        }
     },
-    "modelName": {
-      "title": "OpenAI model",
-      "type": "string",
-      "description": "The OpenAI model to use. Currently supported models are gpt-4o and gpt-4o-mini.",
-      "enum": [
-        "gpt-4o",
-        "gpt-4o-mini"
-      ],
-      "default": "gpt-4o-mini",
-      "prefill": "gpt-4o-mini"
-    },
-    "debug": {
-      "title": "Debug",
-      "type": "boolean",
-      "description": "If enabled, the Actor will run in debug mode and produce more output.",
-      "editor": "checkbox",
-      "default": false
-    }
-  },
-  "required": ["query", "modelName"]
+    "required": ["modelName"]
 }
