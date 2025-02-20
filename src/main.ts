@@ -1,4 +1,4 @@
-import { Actor, log } from 'apify';
+import { Actor, ApifyClient, log } from 'apify';
 import { BeeAgent } from 'bee-agent-framework/agents/bee/agent';
 import { UnconstrainedMemory } from 'bee-agent-framework/memory/unconstrainedMemory';
 import { LangChainChatModel } from 'bee-agent-framework/adapters/langchain/backend/chat';
@@ -33,7 +33,11 @@ if (!actorId) {
     throw new Error('Actor ID is required.');
 }
 
-const actorData = await getActorData(actorId);
+const apifyClient = new ApifyClient({
+    token: Actor.getEnv().token,
+});
+
+const actorData = await getActorData(apifyClient, actorId);
 console.log('🚀 ~ actorData:', actorData);
 
 // Create a ReAct agent that can use tools.

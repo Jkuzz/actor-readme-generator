@@ -1,4 +1,8 @@
-export const getActorData = async (actorId: string) => {
+import type { ApifyClient } from 'apify';
+
+export const getActorData = async (apifyClient: ApifyClient, actorId: string) => {
+    const result = await apifyClient.actor(actorId).get();
+    console.log(result);
     return {
         _id: actorId,
         name: 'example-actor',
