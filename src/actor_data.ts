@@ -4,8 +4,11 @@ export const getActorPricingInfoEffectiveAtDate = ({
     pricingInfos,
     date,
 }: {
+    // TODO: Optionally add this code from core repository
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     pricingInfos: any[],
     date: Date,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
 }): any | null => {
     if (!pricingInfos?.length) return null;
 
@@ -47,7 +50,11 @@ export const getActorData = async (apifyClient: ApifyClient, actorId: string) =>
     }
     const build = await fetchActorDefaultBuild(actorId);
 
-    const { name, username, exampleRunInput, categories, title, seoTitle, seoDescription, pricingInfos } = actorData;
+    const {
+        // eslint-disable-next-line
+        // @ts-ignore pricingInfos are there, just missing on the type
+        name, username, exampleRunInput, categories, title, seoTitle, seoDescription, pricingInfos,
+    } = actorData;
     // TODO: add an optional readme in the future
     const { inputSchema } = build;
 
