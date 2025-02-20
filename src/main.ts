@@ -7,7 +7,6 @@ import { beeOutputTotalTokens, chargeForActorStart, chargeForModelTokens } from 
 import { getActorData } from './actor_data.js';
 import { buildPrompt } from './prompt_builder.js';
 import { GetReadmeTool } from './tools/readme_fetcher.js';
-import { EvaluateReadmeTool } from './tools/readme_evaluator.js';
 
 /**
  * Actor input schema
@@ -59,21 +58,15 @@ const llm = new LangChainChatModel(
     new ChatOpenAI({ model: modelName }),
 );
 
-// The LangChain adapter does not work with the structured output generation
-// for some reason.
-// Create a separate LLM for structured output generation.
 const agent = new BeeAgent({
     llm,
     memory: new UnconstrainedMemory(),
     tools: [
         new GetReadmeTool(),
-        new EvaluateReadmeTool(),
     ],
 });
 
-// Prompt the agent with the query.
-// Debug log agent status updates, e.g., thoughts, tool calls, etc.
-const response = await agent.run({ prompt: 'Fetch the README of apify/instagram-scraper and evaluate it using available tools.' });
+const response = await agent.run({ prompt });
 const tokensTotal = beeOutputTotalTokens(response);
 await chargeForModelTokens(modelName, tokensTotal);
 
@@ -84,7 +77,6 @@ log.info(`Agent 🤖 : ${response.result.text}`);
 // structured output generation - which is mostly the tool calls passed to the structured output generator.
 await chargeForModelTokens(modelName, tokensTotal);
 
-// Push results to the dataset.
 await Actor.pushData({
     response: response.result.text,
 });

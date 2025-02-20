@@ -36,6 +36,9 @@ export class GetReadmeTool extends Tool<JSONToolOutput<GetReadmeToolOutput>> {
     private async fetchReadme(actorFullName: string): Promise<string> {
         log.debug(`Fetching README for ${actorFullName}`);
         const defaultBuild = await fetchActorDefaultBuild(actorFullName);
+        if (`${defaultBuild?.userId}/${defaultBuild?.actorId}` === actorFullName) {
+            return 'No README found';
+        }
         return defaultBuild.readme ?? 'No README found';
     }
 
