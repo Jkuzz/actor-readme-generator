@@ -18,7 +18,7 @@ interface Input {
     debug?: boolean;
 }
 
-const query = 'Generate a README for the following actor:';
+const query = 'Generate a README.md for the following Apify actor:';
 await Actor.init();
 
 /**
@@ -56,7 +56,7 @@ const agent = new BeeAgent({
     llm,
     memory: new UnconstrainedMemory(),
     tools: [new CalculatorSumTool(),
-        new InstagramScrapeTool()],
+    new InstagramScrapeTool()],
 });
 
 // Store tool messages for later structured output generation.
