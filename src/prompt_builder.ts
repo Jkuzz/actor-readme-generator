@@ -44,11 +44,19 @@ Constraints:
     - Do not include images or videos.
     - Use GitHub-flavoured Markdown formatting.
     - Ensure clarity, conciseness, and SEO optimization.
+    - Must pass README evaluation tool.
+`;
+
+const EXAMPLE_ACTORS_SECTION = `
+Here are some example Actors. Pick one that is similar to this one and use it as an example of how to write a good README:
+- apify/instagram-scraper
+- clockworks/free-tiktok-scraper
+- compass/Google-Maps-Reviews-Scraper
+- epctex/youtube-video-downloader
+- maxcopell/zillow-zip-search
 `;
 
 export const buildPrompt = (actorData: ActorDataPromptInput) => {
-    // TODO: Build prompt from actor data
-
     const actorMoreData = {
         description: actorData.description,
         currentPricingInfo: actorData.currentPricingInfo,
@@ -59,5 +67,5 @@ export const buildPrompt = (actorData: ActorDataPromptInput) => {
         + `Here is a summary of a guide on writing a good README.\n${README_GUIDE
         }\nHere are some more details about the actor\n${JSON.stringify(actorMoreData)
         }\nHere is the Actor's input schema:\n${JSON.stringify(actorData.inputSchema)
-        }`;
+        }\n${EXAMPLE_ACTORS_SECTION}`;
 };
