@@ -5,6 +5,7 @@ import { LangChainChatModel } from 'bee-agent-framework/adapters/langchain/backe
 import { ChatOpenAI } from '@langchain/openai';
 import { beeOutputTotalTokens, chargeForActorStart, chargeForModelTokens } from './ppe_utils.js';
 import { getActorData } from './actor_data.js';
+import { buildPrompt } from './prompt_builder.js';
 
 // Actor input schema
 interface Input {
@@ -13,12 +14,17 @@ interface Input {
     debug?: boolean;
 }
 
-const query = 'Generate a README for the following actor:';
 await Actor.init();
+
 /**
  * Actor code
 */
 await chargeForActorStart();
+
+const userToken = Actor.getEnv().token;
+if (!userToken) {
+    throw new Error('User token is required.');
+}
 
 // Handle input
 const {
@@ -34,11 +40,13 @@ if (!actorId) {
 }
 
 const apifyClient = new ApifyClient({
-    token: Actor.getEnv().token,
+    token: userToken,
 });
 
 const actorData = await getActorData(apifyClient, actorId);
 console.log('🚀 ~ actorData:', actorData);
+
+const prompt = buildPrompt(actorData);
 
 // Create a ReAct agent that can use tools.
 // See https://i-am-bee.github.io/bee-agent-framework/#/agents?id=bee-agent
@@ -60,7 +68,7 @@ const agent = new BeeAgent({
 
 // Prompt the agent with the query.
 // Debug log agent status updates, e.g., thoughts, tool calls, etc.
-const response = await agent.run({ prompt: query });
+const response = await agent.run({ prompt });
 const tokensTotal = beeOutputTotalTokens(response);
 await chargeForModelTokens(modelName, tokensTotal);
 
@@ -73,7 +81,6 @@ await chargeForModelTokens(modelName, tokensTotal);
 
 // Push results to the dataset.
 await Actor.pushData({
-    query,
     response: response.result.text,
 });
 log.info('Pushed the data into the dataset!');
