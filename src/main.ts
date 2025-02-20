@@ -3,14 +3,15 @@ import { BeeAgent } from 'bee-agent-framework/agents/bee/agent';
 import { UnconstrainedMemory } from 'bee-agent-framework/memory/unconstrainedMemory';
 import { LangChainChatModel } from 'bee-agent-framework/adapters/langchain/backend/chat';
 import { ChatOpenAI } from '@langchain/openai';
-// import { z } from 'zod';
 import { beeOutputTotalTokens, chargeForActorStart, chargeForModelTokens } from './ppe_utils.js';
 import { getActorData } from './actor_data.js';
 import { buildPrompt } from './prompt_builder.js';
 import { GetReadmeTool } from './tools/readme_fetcher.js';
 import { EvaluateReadmeTool } from './tools/readme_evaluator.js';
 
-// Actor input schema
+/**
+ * Actor input schema
+ */
 interface Input {
     actorId: string;
     modelName: string;

@@ -3,6 +3,7 @@ import { Emitter } from 'bee-agent-framework/emitter/emitter';
 import { AnyToolSchemaLike } from 'bee-agent-framework/internals/helpers/schema';
 import { JSONToolOutput, Tool, ToolEmitter, ToolInput, ToolInputValidationError } from 'bee-agent-framework/tools/base';
 import { z } from 'zod';
+import { fetchActorDefaultBuild } from '../actor_data.js';
 
 interface GetReadmeToolOutput {
     readme: string;
@@ -34,7 +35,8 @@ export class GetReadmeTool extends Tool<JSONToolOutput<GetReadmeToolOutput>> {
 
     private async fetchReadme(actorFullName: string): Promise<string> {
         log.debug(`Fetching README for ${actorFullName}`);
-        return `TODO ${actorFullName}`;
+        const defaultBuild = await fetchActorDefaultBuild(actorFullName);
+        return defaultBuild.readme ?? 'No README found';
     }
 
     protected async _run(input: ToolInput<this>): Promise<JSONToolOutput<GetReadmeToolOutput>> {
