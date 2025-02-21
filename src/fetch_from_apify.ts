@@ -8,4 +8,4 @@ const requestOptions = {
     },
 };
 
-export const fetchFromApify = async (url) => fetch(url, requestOptions).then((response) => response.json());
+export const fetchFromApify = async (url: string) => fetch(url, requestOptions).then((response) => response.json());
