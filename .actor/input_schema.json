@@ -26,5 +26,5 @@
             "default": false
         }
     },
-    "required": ["modelName"]
+    "required": ["actorId"]
 }
