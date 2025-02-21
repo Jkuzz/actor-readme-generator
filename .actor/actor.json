@@ -3,7 +3,7 @@
     "name": "actor-readme-generator",
     "title": "AI Actor README Generator",
     "description": "Generates a README for an Apify Actor using an AI Agent. You only need to provide the actor id to generate a readable and SEO optimized README for the Actor. The generation process utilizes Apify's Official README Guide.",
-    "version": "0.0",
+    "version": "1.0",
     "buildTag": "latest",
     "storages": {
         "dataset": "./dataset_schema.json"
