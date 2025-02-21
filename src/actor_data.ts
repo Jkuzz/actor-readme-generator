@@ -1,4 +1,5 @@
-import { Actor, type ApifyClient } from 'apify';
+import { type ApifyClient } from 'apify';
+import { fetchFromApify } from './fetch_from_apify.js';
 
 export const getActorPricingInfoEffectiveAtDate = ({
     pricingInfos,
@@ -26,19 +27,9 @@ export const getCurrentActorPricingInfo = (
     getActorPricingInfoEffectiveAtDate({ pricingInfos, date: new Date() })
 );
 
-const requestOptions = {
-    method: 'GET',
-    headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${Actor.getEnv().token}`,
-    },
-};
-
 export const fetchActorDefaultBuild = async (actorId: string) => {
     const cleanedActorId = actorId.replace('/', '~');
-    const res = await fetch(`https://api.apify.com/v2/acts/${cleanedActorId}/builds/default`, requestOptions).then((response) => response.json());
-
-    return res.data;
+    return fetchFromApify(`https://api.apify.com/v2/acts/${cleanedActorId}/builds/default`);
 };
 
 export const getActorData = async (apifyClient: ApifyClient, actorId: string) => {
