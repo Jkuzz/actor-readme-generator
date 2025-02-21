@@ -45,7 +45,8 @@ export class CodeSummariserTool extends Tool<JSONToolOutput<CodeSummariserToolOu
         if (!actorData || !actorData.versions?.length) {
             throw new ToolInputValidationError(`Actor's source code is not available.`);
         }
-        if (!('sourceFiles' in actorData.versions[0])) {
+        const latestVersion = actorData.versions.find((version) => version.buildTag === 'latest') ?? actorData.versions[actorData.versions.length - 1];
+        if (!('sourceFiles' in latestVersion)) {
             throw new ToolInputValidationError(`Actor's source code files are not available.`);
         }
 
@@ -55,7 +56,7 @@ export class CodeSummariserTool extends Tool<JSONToolOutput<CodeSummariserToolOu
         });
         const tool = new LLMTool({ llm: new LangChainChatModel(chatOpenAI) });
 
-        const mainFile = actorData.versions[0].sourceFiles.find((file) => file.name.includes('main.'));
+        const mainFile = latestVersion.sourceFiles.find((file) => file.name.includes('main.'));
         if (!mainFile) {
             throw new ToolInputValidationError(`Actor's main file could not be found.`);
         }
