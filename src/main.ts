@@ -10,6 +10,7 @@ import { GetReadmeTool } from './tools/readme_fetcher.js';
 import { getDatasetInformation } from './actor_dataset.js';
 import { CodeSummariserTool } from './tools/code_summariser.js';
 import { saveResultToDataset, saveResultToKeyValueStore } from './save_results.js';
+import { cleanOutput } from './output_cleanning.js';
 
 /**
  * Actor input schema
@@ -73,17 +74,12 @@ const agent = new BeeAgent({
 
 const response = await agent.run({ prompt });
 const tokensTotal = beeOutputTotalTokens(response);
+const cleanedOutput = cleanOutput(response.result.text);
 await chargeForModelTokens(modelName, tokensTotal);
 
-log.info(`Agent 🤖 : ${response.result.text}`);
+log.info(`Agent 🤖 : ${cleanedOutput}`);
 
-// Since the token usage tracking does not work with the Bee LLM, we will
-// just charge the same amount of tokens as the total tokens used by the agent for the
-// structured output generation - which is mostly the tool calls passed to the structured output generator.
-await chargeForModelTokens(modelName, tokensTotal);
-
-await saveResultToDataset(response.result.text);
-
-await saveResultToKeyValueStore(response.result.text);
+await saveResultToDataset(cleanedOutput);
+await saveResultToKeyValueStore(cleanedOutput);
 
 await Actor.exit();
