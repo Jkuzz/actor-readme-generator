@@ -9,6 +9,7 @@ import { buildPrompt } from './prompt_builder.js';
 import { GetReadmeTool } from './tools/readme_fetcher.js';
 import { getDatasetInformation } from './actor_dataset.js';
 import { CodeSummariserTool } from './tools/code_summariser.js';
+import { saveResultToDataset, saveResultToKeyValueStore } from './save_results.js';
 
 /**
  * Actor input schema
@@ -33,7 +34,7 @@ if (!userToken) {
 
 // Handle input
 const {
-    actorId,
+    actorId = 'shu8hvrXbJbY3Eb9W',
     modelName = 'gpt-4o-mini',
     debug,
 } = await Actor.getInput() as Input;
@@ -76,9 +77,13 @@ await chargeForModelTokens(modelName, tokensTotal);
 
 log.info(`Agent 🤖 : ${response.result.text}`);
 
-await Actor.pushData({
-    readme: response.result.text,
-});
-log.info('Pushed the generated README into the dataset!');
+// Since the token usage tracking does not work with the Bee LLM, we will
+// just charge the same amount of tokens as the total tokens used by the agent for the
+// structured output generation - which is mostly the tool calls passed to the structured output generator.
+await chargeForModelTokens(modelName, tokensTotal);
+
+await saveResultToDataset(response.result.text);
+
+await saveResultToKeyValueStore(response.result.text);
 
 await Actor.exit();
