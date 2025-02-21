@@ -29,7 +29,8 @@ export const getCurrentActorPricingInfo = (
 
 export const fetchActorDefaultBuild = async (actorId: string) => {
     const cleanedActorId = actorId.replace('/', '~');
-    return fetchFromApify(`https://api.apify.com/v2/acts/${cleanedActorId}/builds/default`);
+    const res = await fetchFromApify(`https://api.apify.com/v2/acts/${cleanedActorId}/builds/default`);
+    return res.data;
 };
 
 export const getActorData = async (apifyClient: ApifyClient, actorId: string) => {

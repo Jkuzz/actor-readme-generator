@@ -50,7 +50,7 @@ Constraints:
     - The output must not contain any information outside of scope of the Actor.
 `;
 
-export const buildPrompt = (actorData: ActorDataPromptInput) => {
+export const buildPrompt = (actorData: ActorDataPromptInput, datasetData: string[]) => {
     const actorMoreData = {
         description: actorData.description,
         currentPricingInfo: actorData.currentPricingInfo,
@@ -61,6 +61,8 @@ export const buildPrompt = (actorData: ActorDataPromptInput) => {
     ${JSON.stringify(actorMoreData)}
     This is the input schema of the Actor:
     ${JSON.stringify(actorData.inputSchema)}
+    This are some of the fields available on the Actor output:
+    ${datasetData}
     Use one of the available tools to fetch the README from the Actor that looks the most similar to ${actorData.title}.
     Here are some examples of Actors with a good READMEs:
         - apify/instagram-scraper

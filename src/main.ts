@@ -7,6 +7,7 @@ import { beeOutputTotalTokens, chargeForActorStart, chargeForModelTokens } from 
 import { getActorData } from './actor_data.js';
 import { buildPrompt } from './prompt_builder.js';
 import { GetReadmeTool } from './tools/readme_fetcher.js';
+import { getDatasetInformation } from './actor_dataset.js';
 
 /**
  * Actor input schema
@@ -31,9 +32,9 @@ if (!userToken) {
 
 // Handle input
 const {
-    actorId,
+    actorId = 'nH2AHrwxeTRJoN5hX',
     modelName = 'gpt-4o-mini',
-    debug,
+    debug = true,
 } = await Actor.getInput() as Input;
 if (debug) {
     log.setLevel(log.LEVELS.DEBUG);
@@ -47,7 +48,8 @@ const apifyClient = new ApifyClient({
 });
 
 const actorData = await getActorData(apifyClient, actorId);
-const prompt = buildPrompt(actorData);
+const datasetData = await getDatasetInformation(actorId);
+const prompt = buildPrompt(actorData, datasetData);
 
 // Create a ReAct agent that can use tools.
 // See https://i-am-bee.github.io/bee-agent-framework/#/agents?id=bee-agent
