@@ -14,7 +14,7 @@ import { getDatasetInformation } from './actor_dataset.js';
  */
 interface Input {
     actorId: string;
-    modelName: string;
+    modelName?: string;
     debug?: boolean;
 }
 
