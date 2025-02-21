@@ -63,6 +63,7 @@ export const buildPrompt = (actorData: ActorDataPromptInput, datasetData: string
     ${JSON.stringify(actorData.inputSchema)}
     This are some of the fields available on the Actor output:
     ${datasetData}
+    Summarise the actor's source code and use it to generate a README.
     Use one of the available tools to fetch the README from the Actor that looks the most similar to ${actorData.title}.
     Here are some examples of Actors with a good READMEs:
         - apify/instagram-scraper

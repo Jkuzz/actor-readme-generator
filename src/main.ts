@@ -8,11 +8,12 @@ import { getActorData } from './actor_data.js';
 import { buildPrompt } from './prompt_builder.js';
 import { GetReadmeTool } from './tools/readme_fetcher.js';
 import { getDatasetInformation } from './actor_dataset.js';
+import { CodeSummariserTool } from './tools/code_summariser.js';
 
 /**
  * Actor input schema
  */
-interface Input {
+type Input = {
     actorId: string;
     modelName?: string;
     debug?: boolean;
@@ -65,6 +66,7 @@ const agent = new BeeAgent({
     memory: new UnconstrainedMemory(),
     tools: [
         new GetReadmeTool(),
+        new CodeSummariserTool(apifyClient, modelName),
     ],
 });
 
@@ -74,14 +76,9 @@ await chargeForModelTokens(modelName, tokensTotal);
 
 log.info(`Agent 🤖 : ${response.result.text}`);
 
-// Since the token usage tracking does not work with the Bee LLM, we will
-// just charge the same amount of tokens as the total tokens used by the agent for the
-// structured output generation - which is mostly the tool calls passed to the structured output generator.
-await chargeForModelTokens(modelName, tokensTotal);
-
 await Actor.pushData({
     readme: response.result.text,
 });
-log.info('Pushed the data into the dataset!');
+log.info('Pushed the generated README into the dataset!');
 
 await Actor.exit();
