@@ -8,6 +8,6 @@ export const saveResultToDataset = async (data: string) => {
 };
 
 export const saveResultToKeyValueStore = async (data: string) => {
-    await KeyValueStore.setValue('readme-generator-run', data);
+    await KeyValueStore.setValue('readme-generator-run', data, { contentType: 'text/markdown' });
     log.info('Pushed the README.md file into the key-value store!');
 };
