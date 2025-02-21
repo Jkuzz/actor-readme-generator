@@ -32,9 +32,9 @@ if (!userToken) {
 
 // Handle input
 const {
-    actorId = 'nH2AHrwxeTRJoN5hX',
+    actorId,
     modelName = 'gpt-4o-mini',
-    debug = true,
+    debug,
 } = await Actor.getInput() as Input;
 if (debug) {
     log.setLevel(log.LEVELS.DEBUG);
