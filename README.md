@@ -1,4 +1,8 @@
-# Actor README Generator
+[![Actor README Generator Agent](https://apify.com/actor-badge?actor=jkuzz/actor-readme-generator-agent)](https://apify.com/jkuzz/actor-readme-generator-agent)
+
+# Actor README Generator Agent
+
+This is an open source Apify Actor agent. You can find the source code at https://github.com/Jkuzz/actor-readme-generator
 
 ## Introduction and Features
 
